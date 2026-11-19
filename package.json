@@ -1,0 +1,195 @@
+{
+  "name": "perchai",
+  "displayName": "PerchAI",
+  "description": "A local VS Code extension UI shell for PerchAI. Mock data only, no connections or settings wired.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "AI"
+  ],
+  "keywords": [
+    "perchai",
+    "agent",
+    "ui"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:perchai.chat"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "secondarySidebar": [
+        {
+          "id": "perchai",
+          "title": "PerchAI",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "perchai": [
+        {
+          "id": "perchai.chat",
+          "name": "Chat",
+          "type": "webview",
+          "contextualTitle": "PerchAI Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "perchai.newSession",
+        "title": "PerchAI: New Conversation",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "perchai.showHistory",
+        "title": "PerchAI: Conversations",
+        "icon": "$(history)"
+      },
+      {
+        "command": "perchai.manageAccount",
+        "title": "PerchAI: Manage Account",
+        "icon": "$(account)"
+      },
+      {
+        "command": "perchai.chooseFolder",
+        "title": "PerchAI: Choose working folder",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "perchai.openInWindow",
+        "title": "PerchAI: Open Conversation in Window",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "perchai.attachFiles",
+        "title": "PerchAI: Attach files to next message",
+        "icon": "$(file-add)"
+      },
+      {
+        "command": "perchai.chooseSkill",
+        "title": "PerchAI: Choose skill",
+        "icon": "$(symbol-method)"
+      },
+      {
+        "command": "perchai.undo",
+        "title": "PerchAI: Undo last file changes",
+        "icon": "$(discard)"
+      },
+      {
+        "command": "perchai.acceptChanges",
+        "title": "PerchAI: Accept workspace changes"
+      },
+      {
+        "command": "perchai.rejectChanges",
+        "title": "PerchAI: Reject workspace changes"
+      },
+      {
+        "command": "perchai.openArtifact",
+        "title": "PerchAI: Open Artifact"
+      },
+      {
+        "command": "perchai.toggleSecondarySidebar",
+        "title": "PerchAI: Toggle Secondary Side Bar",
+        "icon": "$(layout-sidebar-right)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "perchai.newSession",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l"
+      },
+      {
+        "command": "perchai.showHistory",
+        "key": "ctrl+l",
+        "mac": "cmd+l"
+      },
+      {
+        "command": "perchai.toggleSecondarySidebar",
+        "key": "ctrl+alt+b",
+        "mac": "cmd+alt+b"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "perchai.newSession",
+          "when": "view == perchai.chat",
+          "group": "navigation@1"
+        },
+        {
+          "command": "perchai.showHistory",
+          "when": "view == perchai.chat",
+          "group": "navigation@2"
+        },
+        {
+          "command": "perchai.openInWindow",
+          "when": "view == perchai.chat",
+          "group": "navigation@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PerchAI",
+      "properties": {
+        "perchai.cliPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the perch executable. Leave blank to auto-detect (nvm, npm global, /usr/local/bin)."
+        },
+        "perchai.cwd": {
+          "type": "string",
+          "default": "",
+          "description": "Working folder for Perch runs. Leave blank to use the current workspace folder."
+        },
+        "perchai.mode": {
+          "type": "string",
+          "enum": ["ask", "agents", "plan"],
+          "default": "agents",
+          "description": "Chat mode passed to `perch run --mode`."
+        },
+        "perchai.permission": {
+          "type": "string",
+          "enum": ["auto_review", "take_the_wheel", "default", "plan"],
+          "default": "auto_review",
+          "description": "Permission mode for one-shot `perch run`. Auto Review runs reversible work and reviews consequential actions, so it works without an interactive approval prompt. 'default' and 'plan' cannot be approved in one-shot mode and will stop with approval_required."
+        },
+        "perchai.persona": {
+          "type": "string",
+          "enum": ["", "saffron", "quill"],
+          "default": "",
+          "description": "Optional persona passed to `perch run --persona`."
+        },
+        "perchai.model": {
+          "type": "string",
+          "default": "",
+          "description": "Optional Roost tier or model name passed to `perch run --model`. Leave blank for Roost auto."
+        },
+        "perchai.effort": {
+          "type": "string",
+          "enum": ["", "off", "low", "medium", "high", "xhigh", "max", "ultra"],
+          "default": "",
+          "description": "Optional thinking effort passed to `perch run --effort`. Leave blank for auto."
+        },
+        "perchai.threadId": {
+          "type": "string",
+          "default": "",
+          "description": "Optional thread id to continue a specific Perch conversation. Leave blank for the folder's default thread."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0"
+  }
+}
